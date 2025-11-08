@@ -78,3 +78,16 @@
 5. **其他**
    - 顶部 hero hero-section 结构重新组织，使 RotatingEarth 背景铺满全屏；按钮、文本全部使用白色像素体。
    - Lint ignore 扩展到 `code/`、`motion-example-parallax-templete/`、`rotating-earth/`，避免第三方模板触发错误。
+
+## 2025-11-08 Gemini AI Assistant 工作记录
+
+1.  **构建失败修复**
+    - 修复了一系列 TypeScript 类型错误，包括：
+        - 为从 Supabase 获取的数据添加了 null 检查。
+        - 导出了缺失的 `ButtonProps` 类型。
+        - 修正了 `TileOperation` 联合类型的类型缩小问题。
+    - 将 `素材` 目录从 TypeScript 构建中排除。
+
+2.  **修复邮箱显示问题**
+    - 修改了 Supabase 触发器 `handle_new_user`，使其在用户名未设置时不再回退到使用邮箱。
+    - 在 Dashboard 页面 (`dashboard/page.tsx`) 和公共房间页面 (`rooms/page.tsx`) 添加了检查，以防止为现有用户显示作为用户名的邮箱地址。
