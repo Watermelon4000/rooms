@@ -38,7 +38,7 @@ export function LandingFooter() {
               <p className="font-medium text-foreground">{group.title}</p>
               <div className="space-y-2">
                 {group.links.map((item) =>
-                  item.external ? (
+                  ('external' in item && item.external) ? (
                     <a
                       key={item.label}
                       href={item.href}

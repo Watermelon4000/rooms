@@ -235,7 +235,7 @@ function applyLocal(
 ) {
   let next = [...tiles];
   for (const op of ops) {
-    if ("remove" in op && op.remove) {
+    if ("remove" in op) {
       next = next.filter((tile) => !(tile.x === op.x && tile.y === op.y));
       continue;
     }

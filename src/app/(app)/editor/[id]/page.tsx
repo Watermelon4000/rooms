@@ -32,15 +32,17 @@ export default async function EditorPage({ params }: PageProps) {
     redirect("/dashboard");
   }
 
-  const { data: tiles = [] } = await supabase
+  const { data: tilesData } = await supabase
     .from("room_tiles")
     .select("*")
     .eq("room_id", room.id);
+  const tiles = tilesData ?? [];
 
-  const { data: catalog = [] } = await supabase
+  const { data: catalogData } = await supabase
     .from("item_catalog")
     .select("*")
     .order("label");
+  const catalog = catalogData ?? [];
 
   return <EditorClient room={room} catalog={catalog} initialTiles={tiles} />;
 }

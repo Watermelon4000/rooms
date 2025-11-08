@@ -32,7 +32,7 @@ export type RoomTile = {
 };
 
 export type TileWithItem = RoomTile & {
-  item?: ItemCatalogEntry;
+  item: ItemCatalogEntry | undefined;
 };
 
 export type TileOperation =

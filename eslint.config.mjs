@@ -16,6 +16,7 @@ const eslintConfig = defineConfig([
     "motion-example-parallax-templete/**",
     "rotating-earth/**",
     "code/**",
+    "素材/**",
   ]),
 ]);
 

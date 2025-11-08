@@ -40,13 +40,15 @@ export default async function Dashboard() {
   const profileMap = new Map<string, string | null>();
 
   if (ownerIds.length) {
-    const { data: profiles = [] } = await supabase
+    const { data: profiles } = await supabase
       .from("profiles")
       .select("id, username")
       .in("id", ownerIds);
-    profiles.forEach((profile) =>
-      profileMap.set(profile.id, profile.username ?? null)
-    );
+    if (profiles) {
+      profiles.forEach((profile) =>
+        profileMap.set(profile.id, profile.username ?? null)
+      );
+    }
   }
 
   const publicRooms: PublicRoom[] = publicRoomsRaw.map((room) => ({
@@ -91,7 +93,7 @@ export default async function Dashboard() {
       <section className="grid gap-6 lg:grid-cols-[2fr,1fr]">
         <div className="rounded-3xl border bg-gradient-to-br from-primary/5 via-background to-background p-8 shadow-lg">
           <h1 className="text-3xl font-semibold tracking-tight">房间总览</h1>
-          <div className="mt-8 grid gap-4">
+          <div className="mt-8 grid gap-4 lg:grid-cols-2">
             <div className="rounded-2xl border bg-background/80 p-4">
               <p className="text-xs uppercase tracking-widest text-muted-foreground">我的状态</p>
               <p className="mt-2 text-2xl font-semibold">{myRoom ? myRoom.title : "尚未创建房间"}</p>

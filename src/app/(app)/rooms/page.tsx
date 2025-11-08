@@ -3,23 +3,26 @@ import { createServerSupabaseClient } from "@/lib/supabase-server";
 
 export default async function RoomsPage() {
   const supabase = await createServerSupabaseClient();
-  const { data: rooms = [] } = await supabase
+  const { data: roomsData } = await supabase
     .from("rooms")
     .select("id, title, owner, grid_size, updated_at")
     .eq("is_public", true)
     .order("updated_at", { ascending: false });
+  const rooms = roomsData ?? [];
 
   const ownerIds = [...new Set(rooms.map((room) => room.owner))];
 
   const profileMap = new Map<string, string | null>();
   if (ownerIds.length) {
-    const { data: profiles = [] } = await supabase
+    const { data: profiles } = await supabase
       .from("profiles")
       .select("id, username")
       .in("id", ownerIds);
-    profiles.forEach((profile) =>
-      profileMap.set(profile.id, profile.username ?? null)
-    );
+    if (profiles) {
+      profiles.forEach((profile) =>
+        profileMap.set(profile.id, profile.username ?? null)
+      );
+    }
   }
 
   return (
