@@ -25,6 +25,11 @@ export default async function RoomsPage() {
     }
   }
 
+  const isEmail = (str: string | null | undefined): boolean => {
+    if (!str) return false;
+    return str.includes("@") && str.includes(".");
+  };
+
   return (
     <section className="space-y-6">
       <div>
@@ -35,26 +40,31 @@ export default async function RoomsPage() {
         </p>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {rooms.map((room) => (
-          <Link
-            key={room.id}
-            href={`/room/${room.id}`}
-            className="group rounded-2xl border bg-white/80 p-4 shadow-sm transition hover:shadow-md dark:bg-zinc-950/70"
-          >
-            <p className="text-lg font-semibold">{room.title}</p>
-            <p className="text-xs text-muted-foreground">
-              by {profileMap.get(room.owner) ?? "匿名房主"}
-            </p>
-            <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
-              <span>{room.grid_size}×{room.grid_size}</span>
-              <span>
-                {room.updated_at
-                  ? new Date(room.updated_at).toLocaleDateString()
-                  : ""}
-              </span>
-            </div>
-          </Link>
-        ))}
+        {rooms.map((room) => {
+          const ownerName = profileMap.get(room.owner);
+          return (
+            <Link
+              key={room.id}
+              href={`/room/${room.id}`}
+              className="group rounded-2xl border bg-white/80 p-4 shadow-sm transition hover:shadow-md dark:bg-zinc-950/70"
+            >
+              <p className="text-lg font-semibold">{room.title}</p>
+              <p className="text-xs text-muted-foreground">
+                by{isEmail(ownerName) ? "匿名房主" : ownerName ?? "匿名房主"}
+              </p>
+              <div className="mt-4 flex items-center justify-between text-sm text-muted-foreground">
+                <span>
+                  {room.grid_size}×{room.grid_size}
+                </span>
+                <span>
+                  {room.updated_at
+                    ? new Date(room.updated_at).toLocaleDateString()
+                    : ""}
+                </span>
+              </div>
+            </Link>
+          );
+        })}
         {rooms.length === 0 ? (
           <div className="rounded-2xl border border-dashed p-6 text-sm text-muted-foreground">
             暂无公开房间。创建一个房间并设置为公开即可在此展示。

@@ -6,7 +6,7 @@ set search_path = public
 as $$
 begin
   insert into public.profiles (id, username)
-  values (new.id, coalesce(new.raw_user_meta_data->>'username', new.email))
+  values (new.id, new.raw_user_meta_data->>'username')
   on conflict (id) do update
     set username = excluded.username;
   return new;

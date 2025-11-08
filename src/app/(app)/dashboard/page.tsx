@@ -65,6 +65,11 @@ export default async function Dashboard() {
     return date.toLocaleDateString();
   };
 
+  const isEmail = (str: string | null): boolean => {
+    if (!str) return false;
+    return str.includes("@") && str.includes(".");
+  };
+
   const summaryTiles = [
     {
       label: "公开房间",
@@ -164,7 +169,7 @@ export default async function Dashboard() {
                   {room.is_public ? "公开" : "私密"}
                 </span>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">by {room.owner_name ?? "匿名房主"}</p>
+              <p className="mt-1 text-xs text-muted-foreground">by {isEmail(room.owner_name) ? "匿名房主" : (room.owner_name ?? "匿名房主")}</p>
               <div className="mt-6 flex items-center justify-between text-sm text-muted-foreground">
                 <span>{room.grid_size}×{room.grid_size}</span>
                 <span>更新 {formatDate(room.updated_at)}</span>
