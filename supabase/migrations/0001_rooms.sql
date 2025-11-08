@@ -55,6 +55,10 @@ drop policy if exists p_profiles_self_read_write on public.profiles;
 create policy p_profiles_self_read_write on public.profiles for select using (true);
 drop policy if exists p_profiles_self_update on public.profiles;
 create policy p_profiles_self_update on public.profiles for update using (auth.uid() = id);
+drop policy if exists p_profiles_self_insert on public.profiles;
+create policy p_profiles_self_insert on public.profiles
+for insert
+with check (auth.uid() = id);
 
 drop policy if exists p_rooms_public_read on public.rooms;
 create policy p_rooms_public_read on public.rooms for select using (is_public = true or auth.uid() = owner);
@@ -74,8 +78,8 @@ for all using (exists(select 1 from public.rooms r where r.id = room_id and r.ow
 with check (exists(select 1 from public.rooms r where r.id = room_id and r.owner = auth.uid()));
 
 insert into public.item_catalog(id,label,icon,solid) values
-  ('fridge','冰箱','fridge',true),
+  ('fridge','冰箱','kitchen',true),
   ('tv','电视','tv',true),
-  ('bookshelf','书架','书架',true),
-  ('plant','绿植','plant',true)
+  ('bookshelf','书架','auto_stories',true),
+  ('plant','绿植','yard',true)
 on conflict (id) do nothing;

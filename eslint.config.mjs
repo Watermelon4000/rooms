@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "financial-dashboard-templete/**",
+    "motion-example-parallax-templete/**",
+    "rotating-earth/**",
+    "code/**",
   ]),
 ]);
 
